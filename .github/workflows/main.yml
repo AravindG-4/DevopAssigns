@@ -19,8 +19,8 @@ jobs:
           name: html-files
           path: |
             ./index.html
-            ./css/*
-            ./imgs/*  # Adjust if your imgs folder is in a different location
+            ./style.css
+            ./img/*  # Adjust if your imgs folder is in a different location
 
   # Deploy Job
   deploy:

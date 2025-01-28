@@ -1,0 +1,40 @@
+name: CI/CD for HTML Page with CSS and Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Build Job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Upload artifact to enable deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-files
+          path: |
+            ./index.html
+            ./css/*
+            ./imgs/*  # Adjust if your imgs folder is in a different location
+
+  # Deploy Job
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: html-files
+          path: ./website
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.KEY }}  # Use the default GitHub token for authentication
+          publish_dir: ./website
